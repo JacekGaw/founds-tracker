@@ -10,6 +10,7 @@ interface UserSingUpCredentials {
   password: string;
   name: string;
   surname: string;
+  currency: string;
 }
 
 interface UserLoginCredentials {
@@ -79,14 +80,14 @@ export const signUp: RequestHandler = async (req, res) => {
       userInfo.email,
       userInfo.password,
       userInfo.name,
+      userInfo.currency,
       userInfo.surname
     );
     if (!newUser) {
       return res.status(400).json({ message: "Couldn't add new user" });
     }
     return res.status(201).json({
-      message: "Successfully created an user",
-      user: newUser,
+      message: "Successfully created an user"
     });
   } catch (err) {
     res.status(500).json({
