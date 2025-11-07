@@ -4,11 +4,13 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { runDB } from "./database/db.js";
 import userRouter from "./routes/userRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import { testTransporter } from "./services/mailService/mailService.js";
 
 dotenv.config({ override: true });
 
 runDB();
-
+testTransporter();
 
 const app = express();
 const corsOptions = {
@@ -44,6 +46,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/", userRouter);
+app.use("/auth/", authRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on port ", PORT);
