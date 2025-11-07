@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { runDB } from "./database/db.js";
+import userRouter from "./routes/userRoutes.js";
+
 dotenv.config({ override: true });
 
 runDB();
@@ -41,6 +43,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Connected to API");
 });
 
+app.use("/api/", userRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on port ", PORT);

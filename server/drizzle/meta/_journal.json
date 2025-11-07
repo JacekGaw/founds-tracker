@@ -15,6 +15,13 @@
       "when": 1762463071609,
       "tag": "0001_furry_phil_sheldon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762539552958,
+      "tag": "0002_famous_post",
+      "breakpoints": true
     }
   ]
 }

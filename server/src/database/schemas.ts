@@ -7,7 +7,8 @@ import {
   pgEnum,
   integer,
   text,
-  numeric
+  numeric,
+  date
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -40,6 +41,7 @@ export const transactions = pgTable("transactions", {
     type: transactionTypeEnum().notNull().default("expense"),
     description: text('description'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    transactionDate: date('transaction_date').defaultNow().notNull(),
     amount: numeric('amount', { precision: 12, scale: 2 }).notNull(),
     userId: integer('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
 })
