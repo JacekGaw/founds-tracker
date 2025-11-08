@@ -39,6 +39,16 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     getCategories();
   }, [user]);
 
+  const addCategories = async () => {
+    try {
+        const newCategories = []
+        const response = await api.post('api/category', newCategories);
+        
+    } catch (err: unknown) {
+        console.error(err);
+    }
+  }
+
   const getCategories = async () => {
     if (user) {
       try {

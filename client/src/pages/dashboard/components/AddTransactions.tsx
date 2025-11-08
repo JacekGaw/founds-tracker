@@ -3,12 +3,13 @@ import Button from "../../../components/UI/Button";
 import Input from "../../../components/UI/Input";
 import type { OptionType } from "../../../components/UI/Input";
 import { useUserCtx } from "../../../store/UserContext";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useRef } from "react";
 import {
   useTransactionCtx,
   type NewTransaction,
 } from "../../../store/TransactionContext";
 import { useCategoryCtx } from "../../../store/CategoryContext";
+import Modal, { type ModalRef } from "../../../components/UI/Modal";
 
 const typeOptions: Array<OptionType> = [
   {
@@ -36,6 +37,7 @@ const AddTransactions: React.FC = () => {
   const { user } = useUserCtx();
   const { addNewTransaction } = useTransactionCtx();
   const { categories } = useCategoryCtx();
+  const modalRef = useRef<ModalRef>(null);
 
   const [state, handleAddExpense, isPending] = useActionState<
     FormState,
@@ -60,6 +62,9 @@ const AddTransactions: React.FC = () => {
 
   return (
     <>
+        <Modal ref={modalRef}>
+            <div>Hello</div>
+        </Modal>
       <p>Add Transaction</p>
       <form action={handleAddExpense} className="flex flex-col gap-2 text-sm">
         <Input
@@ -87,6 +92,7 @@ const AddTransactions: React.FC = () => {
               Category{" "}
               <button
                 type="button"
+                onClick={() => modalRef.current?.open()}
                 className="hidden group-hover:inline-block cursor-pointer hover:text-secondary text-primary underline"
               >
                 manage categories
