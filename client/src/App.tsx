@@ -4,6 +4,8 @@ import { AuthProvider } from "./store/AuthContext";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import RootLayout from "./pages/RootLayout";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,7 +26,13 @@ function App() {
           children: [
             {
               path: "/",
-              element: <div>Hello</div>,
+              element: <RootLayout></RootLayout>,
+              children: [
+                {
+                  path: "/",
+                  element: <Dashboard />,
+                }
+              ]
             },
           ],
         },

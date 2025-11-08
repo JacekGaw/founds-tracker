@@ -11,7 +11,7 @@ const Logo: React.FC<{
     >
       <HandCoins size={size} strokeWidth={2} />
       <p className={`text-${textSize}`}>
-        <span className="text-primary">Money</span>
+        <span className="text-primary">Founds</span>
         <span>Track</span>
       </p>
     </div>

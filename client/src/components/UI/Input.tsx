@@ -23,7 +23,7 @@ type InputProps =
     } & React.SelectHTMLAttributes<HTMLSelectElement> &
       BaseProps);
 
-interface OptionType {
+export type OptionType = {
   value: string;
   text: string;
   className?: string;

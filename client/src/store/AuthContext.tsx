@@ -11,6 +11,7 @@ export interface UserObj {
   email: string;
   phone?: string;
   createdAt: string;
+  currency: string;
 }
 
 interface AuthContextProps {

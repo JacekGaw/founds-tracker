@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router";
 import { useAuth } from "../store/AuthContext";
 import Spinner from "../components/UI/Spinner";
 
-const ProtectedRoute: React.FC<object> = () => {
+const ProtectedRoute: React.FC = () => {
   const authContext = useAuth();
   if (!authContext) {
     throw new Error("AuthContext is undefined");

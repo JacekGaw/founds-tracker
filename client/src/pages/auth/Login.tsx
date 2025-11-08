@@ -43,7 +43,7 @@ const Login: React.FC = () => {
     <section className="relative w-full min-h-screen bg-bg flex justify-center items-center">
       <div className="flex flex-col justify-center items-center gap-10">
         <header>
-          <Logo textSize="5xl" size={42} />
+          <Logo textSize="xl" size={42} />
         </header>
         <form
           className="flex flex-col justify-center gap-5"
