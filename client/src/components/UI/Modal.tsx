@@ -49,7 +49,6 @@ const Modal: React.FC<ModalProps> = ({ className = "", children, onClose, ref })
       className={`
         ${className} 
         backdrop:bg-black/50 
-        p-8 
         bg-bg 
         border 
         border-border 
@@ -63,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({ className = "", children, onClose, ref })
         overflow-auto
       `}
     >
-      <div onClick={(e) => e.stopPropagation()}>
+      <div onClick={(e) => e.stopPropagation()} className="p-8">
         {children}
         <div className="absolute right-2 top-2">
           <motion.button

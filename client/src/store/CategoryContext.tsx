@@ -5,15 +5,22 @@ import api from "../api/api";
 
 interface CategoryContextProps {
   categories: CategoryType[];
+  addCategories: (data: NewCategoryType[]) => Promise<string | null>
+  deleteCategory: (id: number) => Promise<void>
 }
 
 export type CategoryType = {
-  id: string;
+  id: number;
   name: string;
   type: "expense" | "income" | "savings";
   createdAt: string;
   userId: string;
 };
+
+export type NewCategoryType = {
+    name: string;
+    type: "expense" | "income" | "savings";
+}
 
 export const CategoryContext = createContext<CategoryContextProps | undefined>(
   undefined
@@ -39,13 +46,18 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     getCategories();
   }, [user]);
 
-  const addCategories = async () => {
+  const addCategories = async (newCategories: NewCategoryType[]): Promise<string | null> => {
     try {
-        const newCategories = []
         const response = await api.post('api/category', newCategories);
-        
+        if(response.data as CategoryType[]) {
+            setCategories(p => [...p, ...response.data])
+        }
+        return null;
     } catch (err: unknown) {
-        console.error(err);
+        if (err instanceof Error) {
+            return err.message;
+          }
+          return "Error adding new transaction";
     }
   }
 
@@ -54,7 +66,6 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
       try {
         const response = await api.get("api/categories");
         if (response.data) {
-            console.log(response.data)
           setCategories(response.data);
         }
       } catch (err: unknown) {
@@ -63,8 +74,21 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const deleteCategory = async (id: number) => {
+      try {
+        const response = await api.delete(`api/category/${id}`);
+        console.log(response)
+        setCategories(p => p.filter(p => p.id !== id));
+      } catch (err: unknown) {
+        console.error(err);
+      }
+    
+  };
+
   const ctxValue = {
     categories,
+    addCategories,
+    deleteCategory
   };
 
   return (

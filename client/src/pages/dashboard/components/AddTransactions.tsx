@@ -10,6 +10,7 @@ import {
 } from "../../../store/TransactionContext";
 import { useCategoryCtx } from "../../../store/CategoryContext";
 import Modal, { type ModalRef } from "../../../components/UI/Modal";
+import CategoriesModal from "./CategoriesModal";
 
 const typeOptions: Array<OptionType> = [
   {
@@ -42,8 +43,7 @@ const AddTransactions: React.FC = () => {
   const [state, handleAddExpense, isPending] = useActionState<
     FormState,
     FormData
-  >(async (previousState: FormState, formData: FormData) => {
-    console.log(previousState, formData);
+  >(async (_previousState: FormState, formData: FormData) => {
     const transactionDate = formData.get("transactionDate") as string;
     const type = formData.get("type") as string;
     const category = formData.get("category") as string;
@@ -63,7 +63,7 @@ const AddTransactions: React.FC = () => {
   return (
     <>
         <Modal ref={modalRef}>
-            <div>Hello</div>
+            <CategoriesModal />
         </Modal>
       <p>Add Transaction</p>
       <form action={handleAddExpense} className="flex flex-col gap-2 text-sm">
@@ -102,7 +102,7 @@ const AddTransactions: React.FC = () => {
           options={categories
             .filter((c) => c.type === choosenType)
             .map((c) => {
-              return { value: c.id, text: c.name };
+              return { value: c.id.toString(), text: c.name };
             })}
           name="category"
           required
