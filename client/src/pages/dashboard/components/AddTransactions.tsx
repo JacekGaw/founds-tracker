@@ -3,11 +3,12 @@ import Button from "../../../components/UI/Button";
 import Input from "../../../components/UI/Input";
 import type { OptionType } from "../../../components/UI/Input";
 import { useUserCtx } from "../../../store/UserContext";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import {
   useTransactionCtx,
   type NewTransaction,
 } from "../../../store/TransactionContext";
+import { useCategoryCtx } from "../../../store/CategoryContext";
 
 const typeOptions: Array<OptionType> = [
   {
@@ -29,7 +30,12 @@ type FormState = {
 } | null;
 
 const AddTransactions: React.FC = () => {
+  const [choosenType, setChoosenType] = useState<
+    "expense" | "income" | "savings"
+  >("expense");
   const { user } = useUserCtx();
+  const { addNewTransaction } = useTransactionCtx();
+  const { categories } = useCategoryCtx();
 
   const [state, handleAddExpense, isPending] = useActionState<
     FormState,
@@ -48,8 +54,8 @@ const AddTransactions: React.FC = () => {
       amount,
       description,
     };
-    console.log(newTransaction);
-    return null;
+    const error = await addNewTransaction(newTransaction);
+    return error ? { error } : null;
   }, null);
 
   return (
@@ -67,6 +73,11 @@ const AddTransactions: React.FC = () => {
           label="Type"
           options={typeOptions}
           name="type"
+          onChange={(event) =>
+            setChoosenType(
+              event.target.value as "expense" | "income" | "savings"
+            )
+          }
           required
         />
         <Input
@@ -82,7 +93,11 @@ const AddTransactions: React.FC = () => {
               </button>
             </div>
           }
-          options={typeOptions}
+          options={categories
+            .filter((c) => c.type === choosenType)
+            .map((c) => {
+              return { value: c.id, text: c.name };
+            })}
           name="category"
           required
         />

@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 import { runDB } from "./database/db.js";
 import userRouter from "./routes/userRoutes.js";
 import authRouter from "./routes/authRoutes.js";
+import transactionRouter from './routes/transactionRoutes.js'
+import categoryRouter from './routes/categoryRoutes.js'
 import { testTransporter } from "./services/mailService/mailService.js";
 
 dotenv.config({ override: true });
@@ -46,6 +48,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/", userRouter);
+app.use("/api/", transactionRouter);
+app.use("/api/", categoryRouter);
 app.use("/auth/", authRouter);
 
 app.listen(PORT, () => {

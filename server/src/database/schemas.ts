@@ -38,7 +38,6 @@ export const categories = pgTable("categories", {
 export const transactions = pgTable("transactions", {
     id: serial("id").primaryKey(),
     categoryId: integer('category_id').references(() => categories.id, { onDelete: 'restrict' }).notNull(),
-    name: varchar("name", { length: 100 }).notNull(),
     type: transactionTypeEnum().notNull().default("expense"),
     description: text('description'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
