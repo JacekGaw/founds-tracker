@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import db from "../database/db";
 import { categories } from "../database/schemas";
 
@@ -6,6 +6,7 @@ export type NewCategory = {
   userId: number;
   name: string;
   type: "expense" | "income" | "savings";
+  color: string;
 };
 
 export const getCategoriesDB = async (

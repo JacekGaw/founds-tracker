@@ -8,7 +8,8 @@ import {
   integer,
   text,
   numeric,
-  date
+  date,
+  char
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -33,6 +34,7 @@ export const categories = pgTable("categories", {
     type: transactionTypeEnum('type').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     userId: integer('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+    color: char("color", {length: 7})
 })
 
 export const transactions = pgTable("transactions", {

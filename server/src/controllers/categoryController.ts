@@ -40,6 +40,7 @@ export const addCategories: RequestHandler = async (
     const categories: Array<{
       name: string;
       type: "expense" | "income" | "savings";
+      color: string;
     }> = req.body;
     if (!categories || !Array.isArray(categories)) {
       return res.status(400).json({

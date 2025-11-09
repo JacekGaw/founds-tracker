@@ -1,6 +1,6 @@
 import { useCategoryCtx } from "../../../store/CategoryContext";
 import type { TransactionType } from "../../../store/TransactionContext";
-import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from "recharts";
+import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts";
 import { useUserCtx } from "../../../store/UserContext";
 
 type ChartDataItem = {
@@ -39,6 +39,10 @@ const Chart: React.FC<{ transactions: TransactionType[] }> = ({
   const categoryData: ChartDataItem[] =
     transactions.length !== 0 ? getCategoryBreakdown() : [];
 
+    const getCategoryColor = (name: string): string => {
+      return categories.find((c) => c.name === name)?.color ?? "#AA8888";
+    };
+
   return (
     <div className="flex flex-col gap-5">
       <p>Expenses Chart</p>
@@ -47,7 +51,7 @@ const Chart: React.FC<{ transactions: TransactionType[] }> = ({
           <div className="text-text-muted font-extralight">No transactions</div>
         ) : (
           <ResponsiveContainer width="100%" height={350}>
-            <PieChart>
+            <PieChart responsive>
               <Pie
                 data={categoryData}
                 dataKey="value"
@@ -61,16 +65,18 @@ const Chart: React.FC<{ transactions: TransactionType[] }> = ({
                   return `${e.name}: ${e.value.toFixed(2)} ${user?.currency}`;
                 }}
               >
-                {categoryData.map((_entry, index) => (
-                  <Cell key={`cell-${index}`} fill={"#A77"} />
+                {categoryData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={getCategoryColor(entry.name)} />
                 ))}
               </Pie>
+              
               <Tooltip
                 formatter={(value: unknown, name: string) => {
                   const num = typeof value === "number" ? value : Number(value);
                   return [`${num.toFixed(2)} ${user?.currency}`, name];
                 }}
               />
+              <Legend />
             </PieChart>
           </ResponsiveContainer>
         )}

@@ -15,6 +15,27 @@ const History: React.FC<{
     return categories.find((c) => c.id === id)?.name ?? "No category";
   };
 
+  const getCategoryColor = (id: number | null): string | undefined => {
+    if (id === null) {
+      return undefined;
+    }
+    return categories.find((c) => c.id === id)?.color ?? undefined;
+  };
+
+  const getTextColorForBg = (hexColor?: string): string => {
+    if (!hexColor) return "#000";
+  
+    const color = hexColor.replace("#", "");
+  
+    const r = parseInt(color.substring(0, 2), 16);
+    const g = parseInt(color.substring(2, 4), 16);
+    const b = parseInt(color.substring(4, 6), 16);
+  
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+  
+    return luminance > 186 ? "#000" : "#fff";
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <p>History</p>
@@ -28,7 +49,6 @@ const History: React.FC<{
           <p className="col-span-2">Description</p>
         </div>
 
-        {/* Grid rows */}
         {transactions.length > 0 ? (
           transactions.map((t) => (
             <div
@@ -37,7 +57,8 @@ const History: React.FC<{
             >
               <p className="whitespace-nowrap">{t.transactionDate}</p>
               <p className="whitespace-nowrap">
-                {getCategoryName(t.categoryId)}
+                <span  className="p-1 rounded-full" style={{ backgroundColor: getCategoryColor(t.categoryId), color: getTextColorForBg(getCategoryColor(t.categoryId)), }}>
+                {getCategoryName(t.categoryId)}</span>
               </p>
               <p className="whitespace-nowrap">{t.type}</p>
               <p className="whitespace-nowrap">

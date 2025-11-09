@@ -31,7 +31,9 @@ const CategoryItem: React.FC<{
   disabled: boolean;
 }> = ({ c, deleteFn, disabled }) => {
   return (
-    <div className="group flex justify-between items-center bg-bg-light border border-border-muted rounded-md py-1 px-2">
+    <div className=" w-full group flex bg-bg-light rounded-md border border-border-muted">
+      <div className="w-12 rounded-l-md border-r border-border-muted" style={{backgroundColor: c.color ?? "hsl(0 0% 98%)"}}></div>
+    <div className=" flex justify-between w-full items-center py-1 px-2">
       <p>{c.name}</p>
       <div className="hidden group-hover:flex justify-end gap-2 items-center">
         <button
@@ -43,6 +45,7 @@ const CategoryItem: React.FC<{
         </button>
       </div>
     </div>
+    </div>
   );
 };
 
@@ -53,8 +56,10 @@ const CategoriesModal: React.FC = () => {
   const [state, addCategory, isPending] = useActionState<FormState, FormData>(
     async (_previousState: FormState, formData: FormData) => {
       const name = formData.get("name") as string;
+      const color = formData.get("color") as string;
+      console.log(color);
       const type = formData.get("type") as "expense" | "income" | "savings";
-      const newCategoryArr = [{ name, type }];
+      const newCategoryArr = [{ name, type, color }];
       const error = await addCategories(newCategoryArr);
       return error ? { error } : null;
     },
@@ -124,15 +129,16 @@ const CategoriesModal: React.FC = () => {
           <div className="flex justify-between items-stretch gap-2 text-sm">
             <Input name="name" placeholder="Name" required className="w-full" />
             <Input inputType="select" options={typeOptions} name="type" />
+            <Input  inputClassName="flex  h-full p-1!" defaultValue="#88AA66" name="color" type="color" />
             <button
               disabled={isPending}
               type="submit"
-              className="bg-primary text-white hover:scale-105 transition-all duration-200 cursor-pointer p-2 text-sm rounded-sm"
+              className="bg-primary text-white hover:scale-105 transition-all duration-200 cursor-pointer p-4 text-sm rounded-sm"
             >
               <Plus size={16} />
             </button>
           </div>
-          {state?.error ? state.error : null}
+          {state?.error ? <p>{state.error}</p> : null}
         </form>
       </div>
     </div>

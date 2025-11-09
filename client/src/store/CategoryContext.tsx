@@ -15,11 +15,13 @@ export type CategoryType = {
   type: "expense" | "income" | "savings";
   createdAt: string;
   userId: string;
+  color: string | null;
 };
 
 export type NewCategoryType = {
     name: string;
     type: "expense" | "income" | "savings";
+    color: string;
 }
 
 export const CategoryContext = createContext<CategoryContextProps | undefined>(
