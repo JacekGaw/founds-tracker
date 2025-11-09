@@ -81,7 +81,7 @@ const CategoriesModal: React.FC = () => {
                 <CategoryItem
                   key={c.id}
                   c={c}
-                  deleteFn={deleteCategory}
+                  deleteFn={handleDelete}
                   disabled={isDeletePending}
                 />
               ))}
@@ -96,7 +96,7 @@ const CategoriesModal: React.FC = () => {
                 <CategoryItem
                   key={c.id}
                   c={c}
-                  deleteFn={deleteCategory}
+                  deleteFn={handleDelete}
                   disabled={isDeletePending}
                 />
               ))}
@@ -111,7 +111,7 @@ const CategoriesModal: React.FC = () => {
                 <CategoryItem
                   key={c.id}
                   c={c}
-                  deleteFn={deleteCategory}
+                  deleteFn={handleDelete}
                   disabled={isDeletePending}
                 />
               ))}

@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
   const { getTransactions } = useTransactionCtx();
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const [dashboardDate, setDashboardDate] = useState<Date>(new Date());
-  const [isLoading, startTransition] = useTransition();
+  const [_isLoading, startTransition] = useTransition();
 
   const getDashboardTransactions = () => {
     startTransition(async () => {

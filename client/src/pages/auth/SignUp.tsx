@@ -11,6 +11,7 @@ interface SignUpCredentials {
   repeatPassword: string;
   name: string;
   surname: string;
+  currency: string;
 }
 
 const currencyOptions = [
@@ -61,13 +62,15 @@ const SignUp: React.FC = () => {
     const repeatPassword = formData.get("password-repeat") as string;
     const name = formData.get("name") as string;
     const surname = formData.get("surname") as string;
+    const currency = formData.get("currency") as string;
     if (
       !formData ||
       !email ||
       !password ||
       !repeatPassword ||
       !name ||
-      !surname
+      !surname ||
+      !currency
     ) {
       setErrorMessage("Did not provided all required informations.");
       return;
@@ -78,6 +81,7 @@ const SignUp: React.FC = () => {
       repeatPassword,
       name,
       surname,
+      currency
     };
     if (
       data.password?.toString().trim() !==
