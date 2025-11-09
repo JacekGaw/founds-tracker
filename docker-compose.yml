@@ -28,7 +28,7 @@ services:
       - internal_network
       - external_network
     ports:
-      - "3002:3002"
+      - "3003:3003"
     volumes:
       - ./ssl:/app/ssl
     depends_on:
@@ -41,7 +41,7 @@ services:
     networks:
       - external_network
     ports:
-      - "8088:80"
+      - "8089:80"
     depends_on:
       backend:
         condition: service_started

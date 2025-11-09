@@ -17,8 +17,9 @@ testTransporter();
 const app = express();
 const corsOptions = {
   origin: [
-      "http://localhost:8088",
-      "http://localhost:5173"
+      "http://localhost:8089",
+      "http://localhost:5173",
+      "https://pieniondze.bieda.it"
   ],
   methods: ["GET", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept-Language"],

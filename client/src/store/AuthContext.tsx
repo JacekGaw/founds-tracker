@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode, Dispatch, SetStateAction } from "react";
-import api, { apiBaseUrl } from "../api/api";
-import axios from "axios";
+import api from "../api/api";
 
 export interface UserObj {
   id: number;
@@ -91,7 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = async (userData: LoginCredentials) => {
     try {
       setIsLoading(true);
-      const response = await axios.post(`${apiBaseUrl}/auth/login`, userData);
+      const response = await api.post(`/auth/login`, userData);
       const { accessToken, refreshToken } = response.data;
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
