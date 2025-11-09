@@ -79,11 +79,11 @@ const Dashboard: React.FC = () => {
         </button>
       </div>
       <StatsCards transactions={transactions} />
-      <div className="grid gap-5 grid-cols-6">
-        <Card className="flex flex-col gap-5 col-span-4">
+      <div className="grid gap-5 grid-cols-6 ">
+        <Card className="flex  flex-col gap-5 col-span-6 lg:col-span-4 lg:order-1 order-2">
           <Chart transactions={transactions} />
         </Card>
-        <Card className="flex flex-col gap-5 col-span-2">
+        <Card className="flex flex-col gap-5 col-span-6 lg:col-span-2 lg:order-2 order-1">
           <AddTransactions onAddTransaction={handleAddTransaction} />
         </Card>
       </div>

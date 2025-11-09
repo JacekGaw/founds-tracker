@@ -1,18 +1,18 @@
 import { useCategoryCtx } from "../../../store/CategoryContext";
 import type { TransactionType } from "../../../store/TransactionContext";
-import { PieChart, Pie, ResponsiveContainer, Cell } from "recharts";
+import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from "recharts";
 import { useUserCtx } from "../../../store/UserContext";
 
 type ChartDataItem = {
-    name: string;
-    value: number;
-  };
+  name: string;
+  value: number;
+};
 
 const Chart: React.FC<{ transactions: TransactionType[] }> = ({
-  transactions
+  transactions,
 }) => {
   const { categories } = useCategoryCtx();
-  const { user } = useUserCtx()
+  const { user } = useUserCtx();
   const expensesTransactions = transactions.filter((c) => c.type === "expense");
 
   const getCategoryName = (id: number | null): string => {
@@ -36,7 +36,8 @@ const Chart: React.FC<{ transactions: TransactionType[] }> = ({
     }));
   };
 
-  const categoryData: ChartDataItem[] = transactions.length !== 0 ? getCategoryBreakdown() : [];
+  const categoryData: ChartDataItem[] =
+    transactions.length !== 0 ? getCategoryBreakdown() : [];
 
   return (
     <div className="flex flex-col gap-5">
@@ -54,15 +55,22 @@ const Chart: React.FC<{ transactions: TransactionType[] }> = ({
                 cx="50%"
                 cy="50%"
                 outerRadius={100}
+                labelLine={false}
                 label={(entry) => {
-                    const e = entry as unknown as ChartDataItem;
-                    return `${e.name}: ${e.value.toFixed(2)} ${user?.currency}`;
-                  }}
+                  const e = entry as unknown as ChartDataItem;
+                  return `${e.name}: ${e.value.toFixed(2)} ${user?.currency}`;
+                }}
               >
                 {categoryData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={"#A77"} />
                 ))}
               </Pie>
+              <Tooltip
+                formatter={(value: unknown, name: string) => {
+                  const num = typeof value === "number" ? value : Number(value);
+                  return [`${num.toFixed(2)} ${user?.currency}`, name];
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         )}

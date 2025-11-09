@@ -25,7 +25,7 @@ const StatsCards: React.FC<{transactions: TransactionType[]}> = ({transactions})
             <TrendingDown />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{expenses.toFixed(2)}</span>
+            <span className="font-bold text-lg sm:text-xl lg:text-3xl mr-1">{expenses.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>
@@ -35,7 +35,7 @@ const StatsCards: React.FC<{transactions: TransactionType[]}> = ({transactions})
             <TrendingUp />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{income.toFixed(2)}</span>
+            <span className="font-bold text-lg sm:text-xl lg:text-3xl mr-1">{income.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>
@@ -45,7 +45,7 @@ const StatsCards: React.FC<{transactions: TransactionType[]}> = ({transactions})
             <PiggyBank />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{savings.toFixed(2)}</span>
+            <span className="font-bold text-lg sm:text-2xl lg:text-3xl mr-1">{savings.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>
@@ -55,7 +55,7 @@ const StatsCards: React.FC<{transactions: TransactionType[]}> = ({transactions})
             <HandCoins />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{balance.toFixed(2)}</span>
+            <span className="font-bold text-lg sm:text-xl lg:text-3xl mr-1">{balance.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>

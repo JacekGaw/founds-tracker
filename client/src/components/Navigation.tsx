@@ -10,38 +10,40 @@ const Navigation: React.FC = () => {
     <div className="py-5 flex justify-between items-center gap-5">
       <Logo textSize="xl" size={42} />
       <div className="flex justify-end items-center gap-10">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "hover:text-secondary"
-          }
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/expenses"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "hover:text-secondary"
-          }
-        >
-          Expenses
-        </NavLink>
-        <NavLink
-          to="/budget"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "hover:text-secondary"
-          }
-        >
-          Budget
-        </NavLink>
-        <NavLink
-          to="/user"
-          className={({ isActive }) =>
-            isActive ? "text-primary" : "hover:text-secondary"
-          }
-        >
-          User
-        </NavLink>
+        <div className="hidden sm:flex justify-end items-center gap-10">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "hover:text-secondary"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/expenses"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "hover:text-secondary"
+            }
+          >
+            Expenses
+          </NavLink>
+          <NavLink
+            to="/budget"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "hover:text-secondary"
+            }
+          >
+            Budget
+          </NavLink>
+          <NavLink
+            to="/user"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "hover:text-secondary"
+            }
+          >
+            User
+          </NavLink>
+        </div>
         <LogOutIcon
           size={20}
           className="cursor-pointer hover:text-text-muted"
