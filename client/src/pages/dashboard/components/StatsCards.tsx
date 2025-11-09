@@ -1,9 +1,21 @@
 import { TrendingDown, TrendingUp, PiggyBank, HandCoins } from "lucide-react";
 import Card from "../../../components/UI/Card";
 import { useUserCtx } from "../../../store/UserContext";
+import type { TransactionType } from "../../../store/TransactionContext";
 
-const StatsCards: React.FC = () => {
+const StatsCards: React.FC<{transactions: TransactionType[]}> = ({transactions}) => {
     const { user } = useUserCtx();
+    const transactionsGroup = Object.groupBy(transactions, ({type}) => type);
+    const expenses = transactionsGroup.expense?.reduce((sum, transactions) => {
+      return sum += parseFloat(transactions.amount)
+    }, 0) ?? 0;
+    const income = transactionsGroup.income?.reduce((sum, transactions) => {
+      return sum += parseFloat(transactions.amount)
+    }, 0) ?? 0;
+    const savings = transactionsGroup.savings?.reduce((sum, transactions) => {
+      return sum += parseFloat(transactions.amount)
+    }, 0) ?? 0;
+    const balance = income - expenses - savings;
 
     return (
         <div className="grid justify-between items-stretch gap-5 grid-cols-2 lg:grid-cols-4 grid-wrap ">
@@ -13,7 +25,7 @@ const StatsCards: React.FC = () => {
             <TrendingDown />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{1236.64}</span>
+            <span className="font-bold text-3xl mr-1">{expenses.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>
@@ -23,7 +35,7 @@ const StatsCards: React.FC = () => {
             <TrendingUp />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{6500}</span>
+            <span className="font-bold text-3xl mr-1">{income.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>
@@ -33,7 +45,7 @@ const StatsCards: React.FC = () => {
             <PiggyBank />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{500}</span>
+            <span className="font-bold text-3xl mr-1">{savings.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>
@@ -43,7 +55,7 @@ const StatsCards: React.FC = () => {
             <HandCoins />
           </div>
           <div className="font-extralight">
-            <span className="font-bold text-3xl mr-1">{4767.91}</span>
+            <span className="font-bold text-3xl mr-1">{balance.toFixed(2)}</span>
             {user?.currency}
           </div>
         </Card>

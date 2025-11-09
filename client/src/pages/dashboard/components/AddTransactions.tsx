@@ -31,7 +31,7 @@ type FormState = {
   error?: string;
 } | null;
 
-const AddTransactions: React.FC = () => {
+const AddTransactions: React.FC<{onAddTransaction: (transactionDate: string) => void}> = ({ onAddTransaction }) => {
   const [choosenType, setChoosenType] = useState<
     "expense" | "income" | "savings"
   >("expense");
@@ -57,6 +57,9 @@ const AddTransactions: React.FC = () => {
       description,
     };
     const error = await addNewTransaction(newTransaction);
+    if(!error) {
+        onAddTransaction(transactionDate);
+    }
     return error ? { error } : null;
   }, null);
 
