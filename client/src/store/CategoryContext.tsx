@@ -88,8 +88,11 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
 
   const deleteCategory = async (id: number) => {
     try {
-      const _response = await api.delete(`api/category/${id}`);
-      setCategories((p) => p.filter((p) => p.id !== id));
+      const response = await api.delete(`api/category/${id}`);
+      const deletedCategory = response.data;
+      if(deletedCategory) {
+        setCategories((p) => p.filter((p) => p.id !== id));
+      }
     } catch (err: unknown) {
       console.error(err);
     }
