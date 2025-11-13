@@ -1,16 +1,17 @@
-import { useActionState, useTransition } from "react";
-import Input, { type OptionType } from "../../../components/UI/Input";
+import { useActionState, useState, useTransition } from "react";
+import Input, { type OptionType } from "../../../../components/UI/Input";
 import {
   useCategoryCtx,
-  type CategoryType,
-} from "../../../store/CategoryContext";
-import { Plus, Trash2 } from "lucide-react";
+} from "../../../../store/CategoryContext";
+import { Plus } from "lucide-react";
+import CategoryItem from "./CategoryItem";
 
 type FormState = {
   error?: string;
 } | null;
 
-const typeOptions: Array<OptionType> = [
+// eslint-disable-next-line react-refresh/only-export-components
+export const typeOptions: Array<OptionType> = [
   {
     value: "expense",
     text: "Expense",
@@ -25,32 +26,9 @@ const typeOptions: Array<OptionType> = [
   },
 ];
 
-const CategoryItem: React.FC<{
-  c: CategoryType;
-  deleteFn: (id: number) => void;
-  disabled: boolean;
-}> = ({ c, deleteFn, disabled }) => {
-  return (
-    <div className=" w-full group flex bg-bg-light rounded-md border border-border-muted">
-      <div className="w-12 rounded-l-md border-r border-border-muted" style={{backgroundColor: c.color ?? "hsl(0 0% 98%)"}}></div>
-    <div className=" flex justify-between w-full items-center py-1 px-2">
-      <p>{c.name}</p>
-      <div className="hidden group-hover:flex justify-end gap-2 items-center">
-        <button
-          disabled={disabled}
-          onClick={() => deleteFn(c.id)}
-          className="cursor-pointer hover:text-secondary"
-        >
-          <Trash2 size={16} />
-        </button>
-      </div>
-    </div>
-    </div>
-  );
-};
-
 const CategoriesModal: React.FC = () => {
   const { categories, addCategories, deleteCategory } = useCategoryCtx();
+  const [categoryInEdit, setCategoryInEdit] = useState<number | null>(null);
   const [isDeletePending, startTransition] = useTransition();
 
   const [state, addCategory, isPending] = useActionState<FormState, FormData>(
@@ -88,6 +66,8 @@ const CategoriesModal: React.FC = () => {
                   c={c}
                   deleteFn={handleDelete}
                   disabled={isDeletePending}
+                  inEdit={c.id === categoryInEdit}
+                  editCategoryFn={(id) => setCategoryInEdit(id)}
                 />
               ))}
             </div>
@@ -103,6 +83,8 @@ const CategoriesModal: React.FC = () => {
                   c={c}
                   deleteFn={handleDelete}
                   disabled={isDeletePending}
+                  inEdit={c.id === categoryInEdit}
+                  editCategoryFn={(id) => setCategoryInEdit(id)}
                 />
               ))}
             </div>
@@ -118,6 +100,8 @@ const CategoriesModal: React.FC = () => {
                   c={c}
                   deleteFn={handleDelete}
                   disabled={isDeletePending}
+                  inEdit={c.id === categoryInEdit}
+                  editCategoryFn={(id) => setCategoryInEdit(id)}
                 />
               ))}
             </div>
@@ -129,7 +113,12 @@ const CategoriesModal: React.FC = () => {
           <div className="flex justify-between items-stretch gap-2 text-sm">
             <Input name="name" placeholder="Name" required className="w-full" />
             <Input inputType="select" options={typeOptions} name="type" />
-            <Input  inputClassName="flex  h-full p-1!" defaultValue="#88AA66" name="color" type="color" />
+            <Input
+              inputClassName="flex  h-full p-1!"
+              defaultValue="#88AA66"
+              name="color"
+              type="color"
+            />
             <button
               disabled={isPending}
               type="submit"

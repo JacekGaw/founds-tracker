@@ -5,8 +5,9 @@ import api from "../api/api";
 
 interface CategoryContextProps {
   categories: CategoryType[];
-  addCategories: (data: NewCategoryType[]) => Promise<string | null>
-  deleteCategory: (id: number) => Promise<void>
+  addCategories: (data: NewCategoryType[]) => Promise<string | null>;
+  deleteCategory: (id: number) => Promise<void>;
+  updateCategory: (id: number, updateData: Partial<UpdateCategoryType>) => Promise<string | null>;
 }
 
 export type CategoryType = {
@@ -19,10 +20,17 @@ export type CategoryType = {
 };
 
 export type NewCategoryType = {
-    name: string;
-    type: "expense" | "income" | "savings";
-    color: string;
-}
+  name: string;
+  type: "expense" | "income" | "savings";
+  color: string;
+};
+
+export type UpdateCategoryType = {
+  name: string;
+  color: string | null;
+};
+
+export const DEFAULT_CAT_COLOR = "#fafafa";
 
 export const CategoryContext = createContext<CategoryContextProps | undefined>(
   undefined
@@ -48,20 +56,22 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     getCategories();
   }, [user]);
 
-  const addCategories = async (newCategories: NewCategoryType[]): Promise<string | null> => {
+  const addCategories = async (
+    newCategories: NewCategoryType[]
+  ): Promise<string | null> => {
     try {
-        const response = await api.post('api/category', newCategories);
-        if(response.data as CategoryType[]) {
-            setCategories(p => [...p, ...response.data])
-        }
-        return null;
+      const response = await api.post("api/category", newCategories);
+      if (response.data as CategoryType[]) {
+        setCategories((p) => [...p, ...response.data]);
+      }
+      return null;
     } catch (err: unknown) {
-        if (err instanceof Error) {
-            return err.message;
-          }
-          return "Error adding new transaction";
+      if (err instanceof Error) {
+        return err.message;
+      }
+      return "Error adding new category";
     }
-  }
+  };
 
   const getCategories = async () => {
     if (user) {
@@ -77,20 +87,36 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const deleteCategory = async (id: number) => {
-      try {
-        const response = await api.delete(`api/category/${id}`);
-        console.log(response)
-        setCategories(p => p.filter(p => p.id !== id));
-      } catch (err: unknown) {
-        console.error(err);
-      }
-    
+    try {
+      const _response = await api.delete(`api/category/${id}`);
+      setCategories((p) => p.filter((p) => p.id !== id));
+    } catch (err: unknown) {
+      console.error(err);
+    }
   };
+
+  const updateCategory = async (id: number, updateData: Partial<UpdateCategoryType>) => {
+    try {
+      const response = await api.patch(`api/category/${id}`, updateData);
+      const updatedCategory: CategoryType = response.data;
+      if(!updateCategory){
+        return null;
+      }
+      setCategories((p) => p.map((cat) => cat.id === id ? updatedCategory : cat));
+      return null;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        return err.message;
+      }
+      return "Error updating category";
+    }
+  }
 
   const ctxValue = {
     categories,
     addCategories,
-    deleteCategory
+    deleteCategory,
+    updateCategory
   };
 
   return (

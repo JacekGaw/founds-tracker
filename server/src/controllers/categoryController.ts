@@ -5,6 +5,7 @@ import {
   deleteCategoryDB,
   getCategoriesDB,
   NewCategory,
+  updateCategoryDB,
 } from "../services/categoryServices.js";
 
 export const getCategories: RequestHandler = async (
@@ -62,28 +63,65 @@ export const addCategories: RequestHandler = async (
 };
 
 export const deleteCategory: RequestHandler = async (
-    req: CustomRequest,
-    res: Response
-  ) => {
-    try {
-      if (!req.user) {
-        return res
-          .status(401)
-          .json({ message: "User not found", error: "Unauthorized" });
-      }
-      const categoryId: string = req.params.id;
-      if (!categoryId) {
-        return res.status(400).json({
-          message: "Missing categoryId",
-          error: "Bad Request",
-        });
-      }
-      const deleted = await deleteCategoryDB(parseInt(categoryId));
-      return res.status(200).json(deleted);
-    } catch (err) {
-      res.status(500).json({
-        message: "Error",
-        error: (err as Error).message || "Unknown error",
+  req: CustomRequest,
+  res: Response
+) => {
+  try {
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ message: "User not found", error: "Unauthorized" });
+    }
+    const categoryId: string = req.params.id;
+    if (!categoryId) {
+      return res.status(400).json({
+        message: "Missing categoryId",
+        error: "Bad Request",
       });
     }
-  };
+    const deleted = await deleteCategoryDB(parseInt(categoryId));
+    return res.status(200).json(deleted);
+  } catch (err) {
+    res.status(500).json({
+      message: "Error",
+      error: (err as Error).message || "Unknown error",
+    });
+  }
+};
+
+export const updateCategory: RequestHandler = async (
+  req: CustomRequest,
+  res: Response
+) => {
+  try {
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ message: "User not found", error: "Unauthorized" });
+    }
+    const categoryId: string = req.params.id;
+    if (!categoryId) {
+      return res.status(400).json({
+        message: "Missing categoryId",
+        error: "Bad Request",
+      });
+    }
+    const categoryIdNum = parseInt(categoryId, 10);
+    if (isNaN(categoryIdNum)) {
+      return res.status(400).json({ message: "Invalid category ID" });
+    }
+    const updateData: Partial<{
+      name: string;
+      type: "expense" | "income" | "savings";
+      color: string;
+    }> = req.body;
+
+    const updatedCategory = await updateCategoryDB(categoryIdNum, updateData);
+    return res.status(200).json(updatedCategory);
+  } catch (err) {
+    res.status(500).json({
+      message: "Error",
+      error: (err as Error).message || "Unknown error",
+    });
+  }
+};

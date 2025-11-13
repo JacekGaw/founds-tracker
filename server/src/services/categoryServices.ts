@@ -33,12 +33,31 @@ export const addCategoriesDB = async (
 };
 
 export const deleteCategoryDB = async (
-    categoryId: number
-  ): Promise<typeof categories.$inferSelect> => {
-    try {
-        const [deleted]= await db.delete(categories).where(eq(categories.id, categoryId)).returning();
-        return deleted;
-    } catch (err) {
-      throw err;
-    }
-  };
+  categoryId: number
+): Promise<typeof categories.$inferSelect> => {
+  try {
+    const [deleted] = await db
+      .delete(categories)
+      .where(eq(categories.id, categoryId))
+      .returning();
+    return deleted;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const updateCategoryDB = async (
+  categoryId: number,
+  data: Partial<typeof categories.$inferInsert>
+): Promise<typeof categories.$inferSelect> => {
+  try {
+    const updatedCategory = await db
+      .update(categories)
+      .set(data)
+      .where(eq(categories.id, categoryId))
+      .returning();
+    return updatedCategory[0];
+  } catch (err) {
+    throw err;
+  }
+};

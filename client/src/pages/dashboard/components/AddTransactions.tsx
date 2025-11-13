@@ -10,7 +10,7 @@ import {
 } from "../../../store/TransactionContext";
 import { useCategoryCtx } from "../../../store/CategoryContext";
 import Modal, { type ModalRef } from "../../../components/UI/Modal";
-import CategoriesModal from "./CategoriesModal";
+import CategoriesModal from "./CategoriesModal/CategoriesModal";
 
 const typeOptions: Array<OptionType> = [
   {
