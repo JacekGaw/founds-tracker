@@ -6,6 +6,8 @@ import SignUp from "./pages/auth/SignUp";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import RootLayout from "./pages/RootLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { NotificationProvider } from "./store/NotificationContext";
+import Toast from "./components/UI/Toast";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,13 +28,13 @@ function App() {
           children: [
             {
               path: "/",
-              element: <RootLayout></RootLayout>,
+              element: <RootLayout />,
               children: [
                 {
                   path: "/",
                   element: <Dashboard />,
-                }
-              ]
+                },
+              ],
             },
           ],
         },
@@ -41,9 +43,11 @@ function App() {
   ]);
 
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <NotificationProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </NotificationProvider>
   );
 }
 

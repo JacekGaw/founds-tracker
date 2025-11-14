@@ -11,6 +11,7 @@ import {
 import { useCategoryCtx } from "../../../store/CategoryContext";
 import Modal, { type ModalRef } from "../../../components/UI/Modal";
 import CategoriesModal from "./CategoriesModal/CategoriesModal";
+import { useNotificationCtx } from "../../../store/NotificationContext";
 
 const typeOptions: Array<OptionType> = [
   {
@@ -39,6 +40,7 @@ const AddTransactions: React.FC<{onAddTransaction: (transactionDate: string) => 
   const { addNewTransaction } = useTransactionCtx();
   const { categories } = useCategoryCtx();
   const modalRef = useRef<ModalRef>(null);
+  const { addNotification } = useNotificationCtx();
 
   const [state, handleAddExpense, isPending] = useActionState<
     FormState,
@@ -58,6 +60,7 @@ const AddTransactions: React.FC<{onAddTransaction: (transactionDate: string) => 
     };
     const error = await addNewTransaction(newTransaction);
     if(!error) {
+        addNotification({title: "Transaction Added", message: `New ${type} with ammount ${amount}${user?.currency} was added successfuly.`})
         onAddTransaction(transactionDate);
     }
     return error ? { error } : null;

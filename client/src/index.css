@@ -18,6 +18,9 @@
   --color-success-vibrant: hsl(146 45% 40%);
   --color-info: hsl(217 45% 55%);
   --color-info-vibrant: hsl(217 60% 50%);
+  --color-info-muted: hsl(216, 69%, 92%);
+  --color-warning-muted: hsl(51, 57%, 93%);
+  --color-danger-muted: hsl(8, 79%, 95%);
 }
 
 @theme {
@@ -38,6 +41,9 @@
   --color-success-vibrant: hsl(var(--color-success-vibrant));
   --color-info: hsl(var(--color-info));
   --color-info-vibrant: hsl(var(--color-info-vibrant));
+  --color-info-muted: hsl(var(--color-info-muted));
+  --color-warning-muted: hsl(var(--color-warning-muted));
+  --color-danger-muted: hsl(var(--color-danger-muted));
 }
 
 * {
