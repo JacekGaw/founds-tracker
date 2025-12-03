@@ -11,11 +11,15 @@ export const NotificationContext = createContext<
   NotificationContextProps | undefined
 >(undefined);
 
-export enum NotificationTypeEnum {
-  ERROR = "error",
-  INFO = "info",
-  WARNING = "warning",
-}
+export const NotificationTypeEnum = {
+  ERROR: "error",
+  INFO: "info",
+  WARNING: "warning",
+} as const;
+
+export type NotificationTypeEnum =
+  (typeof NotificationTypeEnum)[keyof typeof NotificationTypeEnum];
+
 const NOTIFICATION_TYPE_DEFAULT = NotificationTypeEnum.INFO;
 const NOTIFICATION_DURATION_DEFAULT = 5000;
 
