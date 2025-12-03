@@ -1,4 +1,4 @@
-import { and, eq, gte, lte, desc } from "drizzle-orm";
+import { and, eq, gte, lte, desc, ilike } from "drizzle-orm";
 import db from "../database/db";
 import { transactions } from "../database/schemas";
 
@@ -7,7 +7,8 @@ export const getTransactionsDB = async (
   categoryId?: number,
   type?: "expense" | "savings" | "income",
   from?: string,
-  to?: string
+  to?: string,
+  phrase?: string
 ): Promise<(typeof transactions.$inferSelect)[]> => {
   try {
     const conditions = [eq(transactions.userId, userId)];
@@ -23,6 +24,10 @@ export const getTransactionsDB = async (
 
     if (to) {
       conditions.push(lte(transactions.transactionDate, to));
+    }
+
+    if (phrase && phrase.trim() !== "") {
+      conditions.push(ilike(transactions.description, `%${phrase}%`));
     }
 
     const result = await db

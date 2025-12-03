@@ -7,7 +7,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import RootLayout from "./pages/RootLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { NotificationProvider } from "./store/NotificationContext";
-import Toast from "./components/UI/Toast";
+import History from "./pages/history/History";
 
 function App() {
   const router = createBrowserRouter([
@@ -34,6 +34,10 @@ function App() {
                   path: "/",
                   element: <Dashboard />,
                 },
+                {
+                  path: "/history",
+                  element: <History />
+                }
               ],
             },
           ],

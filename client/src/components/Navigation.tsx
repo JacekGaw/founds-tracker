@@ -20,12 +20,12 @@ const Navigation: React.FC = () => {
             Home
           </NavLink>
           <NavLink
-            to="/expenses"
+            to="/history"
             className={({ isActive }) =>
               isActive ? "text-primary" : "hover:text-secondary"
             }
           >
-            Expenses
+            History
           </NavLink>
           <NavLink
             to="/budget"

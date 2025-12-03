@@ -37,6 +37,7 @@ export type TransactionType = {
     type?: "expense" | "savings" | "income";
     from?: string;
     to?: string;
+    phrase?: string;
   };
 
 export const TransactionContext = createContext<
@@ -73,6 +74,10 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
           }
           if (filters?.to) {
             params.append("to", filters.to);
+          }
+
+          if (filters?.phrase) {
+            params.append("phrase", filters.phrase);
           }
     
           const queryString = params.toString();

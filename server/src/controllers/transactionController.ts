@@ -10,6 +10,7 @@ type GetTransactionsParamsType = {
   type?: "expense" | "savings" | "income";
   from?: string;
   to?: string;
+  phrase?: string;
 };
 export const getTransactions: RequestHandler = async (
   req: CustomRequest,
@@ -21,9 +22,8 @@ export const getTransactions: RequestHandler = async (
         .status(401)
         .json({ message: "User not found", error: "Unauthorized" });
     }
-    const { categoryId, type, from, to } =
+    const { categoryId, type, from, to, phrase } =
       req.query as GetTransactionsParamsType;
-
     const parsedCategoryId = categoryId ? parseInt(categoryId, 10) : undefined;
 
     if (categoryId && isNaN(parsedCategoryId!)) {
@@ -45,7 +45,8 @@ export const getTransactions: RequestHandler = async (
       parsedCategoryId,
       type,
       from,
-      to
+      to,
+      phrase
     );
 
     return res.status(201).json(addedTransaction);
