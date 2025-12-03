@@ -75,7 +75,6 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
           if (filters?.to) {
             params.append("to", filters.to);
           }
-
           if (filters?.phrase) {
             params.append("phrase", filters.phrase);
           }
